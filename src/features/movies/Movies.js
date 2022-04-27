@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+    filterMovies,
     getGenres,
     getMovies,
-    setCurrentGenre,
     setCurrentPage,
-    setPaginatedMovies
+    setSelectedGenre
 } from '../../app/storeSlice';
 import { ListGroup } from '../../commons/components/ListGroup';
 import { Pagination } from '../../commons/components/Pagination';
@@ -13,15 +13,15 @@ import { Pagination } from '../../commons/components/Pagination';
 export const Movies = () => {
     const dispatch = useDispatch();
     const {
-        list: totalMovies,
-        paginatedList: paginatedMovies,
+        list: movies,
+        filteredList: filteredMovies,
         currentPage,
         pageSize,
-        selectedGenre
+        selectedGenre,
+        queryString
     } = useSelector((state) => state.movies);
 
     const { list: genres } = useSelector((state) => state.genres);
-    const totalMoviesCount = totalMovies.length;
 
     useEffect(() => {
         dispatch(getMovies());
@@ -32,15 +32,15 @@ export const Movies = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        dispatch(setPaginatedMovies());
-    }, [dispatch, totalMovies, currentPage]);
+        dispatch(filterMovies());
+    }, [dispatch, movies, currentPage]);
 
     const onPageChange = (page) => {
         dispatch(setCurrentPage(page));
     };
 
     const onGenreSelect = (genre) => {
-        dispatch(setCurrentGenre(genre._id));
+        dispatch(setSelectedGenre(genre._id));
     };
 
     return (
@@ -65,7 +65,7 @@ export const Movies = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {paginatedMovies.map((movie) => (
+                        {filteredMovies.map((movie) => (
                             <tr key={movie._id}>
                                 <td>{movie.title}</td>
                                 <td>{movie.genre.name}</td>
@@ -77,7 +77,7 @@ export const Movies = () => {
                 </table>
                 <Pagination
                     currentPage={currentPage}
-                    totalItems={totalMoviesCount}
+                    totalItems={movies.length}
                     pageSize={pageSize}
                     onPageChange={onPageChange}
                 />

@@ -8,10 +8,11 @@ const storeSlice = createSlice({
     initialState: {
         movies: {
             list: [],
-            paginatedList: [],
+            filteredList: [],
             currentPage: 1,
-            pageSize: 3,
-            selectedGenre: ''
+            pageSize: 4,
+            selectedGenre: '',
+            queryString: ''
         },
         genres: {
             list: []
@@ -22,13 +23,13 @@ const storeSlice = createSlice({
             state.movies.list = action.payload;
             state.movies.totalMovies = state.movies.list.length;
         },
-        moviesPaginated: (state, action) => {
-            state.movies.paginatedList = action.payload.paginatedMovies;
+        moviesFiltered: (state, action) => {
+            state.movies.filteredList = action.payload.filteredMovies;
         },
         currentPageSetted: (state, action) => {
             state.movies.currentPage = action.payload.currentPage;
         },
-        currentGenreSetted: (state, action) => {
+        selectedGenreSetted: (state, action) => {
             state.movies.selectedGenre = action.payload.selectedGenre;
         },
         genresLoaded: (state, action) => {
@@ -42,10 +43,10 @@ export const getMovies = () => async (dispatch) => {
     const movies = await moviesService.getMovies();
     dispatch(moviesLoaded(movies));
 };
-export const setPaginatedMovies = () => (dispatch, getState) => {
-    const { list: moviesList, pageSize, currentPage } = getState().movies;
-    const paginatedMovies = paginate(moviesList, pageSize, currentPage);
-    dispatch({ type: moviesPaginated.type, payload: { paginatedMovies } });
+export const filterMovies = () => (dispatch, getState) => {
+    const { list: movies, pageSize, currentPage } = getState().movies;
+    const filteredMovies = paginate(movies, pageSize, currentPage);
+    dispatch({ type: moviesFiltered.type, payload: { filteredMovies } });
 };
 export const getGenres = () => async (dispatch) => {
     const genres = await genresService.getGenres();
@@ -55,12 +56,12 @@ export const setCurrentPage = (currentPage) => ({
     type: currentPageSetted.type,
     payload: { currentPage }
 });
-export const setCurrentGenre = (selectedGenre) => ({
-    type: currentGenreSetted.type,
+export const setSelectedGenre = (selectedGenre) => ({
+    type: selectedGenreSetted.type,
     payload: { selectedGenre }
 });
 //#endregion
 
-const { moviesLoaded, genresLoaded, currentPageSetted, moviesPaginated, currentGenreSetted } =
+const { moviesLoaded, genresLoaded, currentPageSetted, moviesFiltered, selectedGenreSetted } =
     storeSlice.actions;
 export default storeSlice.reducer;
