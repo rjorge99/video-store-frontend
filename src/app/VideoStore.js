@@ -1,13 +1,13 @@
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
-import { Customers } from './Components/Customers';
-import { Login } from './Components/Login';
-import { Movies } from './Components/Movies';
-import { NavBar } from './Components/commons/NavBar';
-import { Register } from './Components/Register';
-import { Rentals } from './Components/Rentals';
-import { NotFound } from './Components/commons/NotFound';
-import store from './store/configureStore';
+import { Customers } from '../components/Customers';
+import { Login } from '../components/Login';
+import { Movies } from '../features/movies/Movies';
+import { NavBar } from '../components/commons/NavBar';
+import { NotFound } from '../components/commons/NotFound';
 import { Provider } from 'react-redux';
+import { Register } from '../components/Register';
+import { Rentals } from '../components/Rentals';
+import store from './configureStore';
 
 export const VideoStore = () => {
     return (
