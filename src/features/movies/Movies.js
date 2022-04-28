@@ -16,6 +16,7 @@ import { MoviesTable } from './MoviesTable';
 
 export const Movies = () => {
     const dispatch = useDispatch();
+
     const {
         list: movies,
         filteredList: filteredMovies,

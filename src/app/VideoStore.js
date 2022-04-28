@@ -10,9 +10,13 @@ import { Rentals } from '../components/Rentals';
 import store from './configureStore';
 import { MoviesForm } from '../features/movies/MoviesForm';
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 export const VideoStore = () => {
     return (
         <Provider store={store}>
+            <ToastContainer />
             <BrowserRouter>
                 <NavBar />
                 <div className='container'>
