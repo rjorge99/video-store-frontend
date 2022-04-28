@@ -9,10 +9,11 @@ const storeSlice = createSlice({
         movies: {
             list: [],
             filteredList: [],
+            listCount: 0,
             currentPage: 1,
             pageSize: 4,
             selectedGenre: '',
-            queryString: ''
+            searchQuery: ''
         },
         genres: {
             list: []
@@ -21,16 +22,19 @@ const storeSlice = createSlice({
     reducers: {
         moviesLoaded: (state, action) => {
             state.movies.list = action.payload;
-            state.movies.totalMovies = state.movies.list.length;
+            state.movies.filteredList = action.payload;
         },
         moviesFiltered: (state, action) => {
             state.movies.filteredList = action.payload.filteredMovies;
+            state.movies.listCount = action.payload.listCount;
         },
         currentPageSetted: (state, action) => {
             state.movies.currentPage = action.payload.currentPage;
         },
         selectedGenreSetted: (state, action) => {
-            state.movies.selectedGenre = action.payload.selectedGenre;
+            state.movies.selectedGenre = action.payload.genre;
+            state.movies.currentPage = 1;
+            state.searchQuery = '';
         },
         genresLoaded: (state, action) => {
             state.genres.list = [{ _id: '', name: 'Select a Genre' }, ...action.payload];
@@ -43,23 +47,40 @@ export const getMovies = () => async (dispatch) => {
     const movies = await moviesService.getMovies();
     dispatch(moviesLoaded(movies));
 };
-export const filterMovies = () => (dispatch, getState) => {
-    const { list: movies, pageSize, currentPage } = getState().movies;
-    const filteredMovies = paginate(movies, pageSize, currentPage);
-    dispatch({ type: moviesFiltered.type, payload: { filteredMovies } });
-};
+
 export const getGenres = () => async (dispatch) => {
     const genres = await genresService.getGenres();
     dispatch(genresLoaded(genres));
 };
+
 export const setCurrentPage = (currentPage) => ({
     type: currentPageSetted.type,
     payload: { currentPage }
 });
-export const setSelectedGenre = (selectedGenre) => ({
-    type: selectedGenreSetted.type,
-    payload: { selectedGenre }
-});
+
+export const setSelectedGenre = (genre) => (dispatch, getState) => {
+    dispatch({ type: selectedGenreSetted.type, payload: { genre } });
+};
+
+export const filterMovies = () => (dispatch, getState) => {
+    let {
+        selectedGenre,
+        list: filteredMovies,
+        searchQuery,
+        pageSize,
+        currentPage
+    } = getState().movies;
+
+    if (selectedGenre)
+        filteredMovies = filteredMovies.filter((movie) => movie.genre._id === selectedGenre);
+
+    const movies = paginate(filteredMovies, pageSize, currentPage);
+
+    dispatch({
+        type: moviesFiltered.type,
+        payload: { filteredMovies: movies, listCount: filteredMovies.length }
+    });
+};
 //#endregion
 
 const { moviesLoaded, genresLoaded, currentPageSetted, moviesFiltered, selectedGenreSetted } =

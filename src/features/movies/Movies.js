@@ -15,6 +15,7 @@ export const Movies = () => {
     const {
         list: movies,
         filteredList: filteredMovies,
+        listCount,
         currentPage,
         pageSize,
         selectedGenre,
@@ -33,7 +34,7 @@ export const Movies = () => {
 
     useEffect(() => {
         dispatch(filterMovies());
-    }, [dispatch, movies, currentPage]);
+    }, [dispatch, movies, currentPage, selectedGenre]);
 
     const onPageChange = (page) => {
         dispatch(setCurrentPage(page));
@@ -48,8 +49,6 @@ export const Movies = () => {
             <div className='col-4'>
                 <ListGroup
                     items={genres}
-                    textProperty='name'
-                    valueProperty='_id'
                     onItemSelect={onGenreSelect}
                     selectedItem={selectedGenre}
                 />
@@ -77,7 +76,7 @@ export const Movies = () => {
                 </table>
                 <Pagination
                     currentPage={currentPage}
-                    totalItems={movies.length}
+                    totalItems={listCount}
                     pageSize={pageSize}
                     onPageChange={onPageChange}
                 />

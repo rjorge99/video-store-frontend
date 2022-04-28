@@ -23,3 +23,8 @@ ListGroup.propTypes = {
     valueProperty: PropTypes.string.isRequired,
     onItemSelect: PropTypes.func.isRequired
 };
+
+ListGroup.defaultProps = {
+    valueProperty: '_id',
+    textProperty: 'name'
+};
