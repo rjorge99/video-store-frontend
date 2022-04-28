@@ -10,7 +10,8 @@ import {
 } from '../../app/storeSlice';
 import { ListGroup } from '../../commons/components/ListGroup';
 import { Pagination } from '../../commons/components/Pagination';
-import { SearchBox } from '../../commons/SearchBox';
+import { SearchBox } from '../../commons/components/SearchBox';
+import { MoviesTable } from './MoviesTable';
 
 export const Movies = () => {
     const dispatch = useDispatch();
@@ -61,26 +62,7 @@ export const Movies = () => {
             </div>
             <div className='col-8'>
                 <SearchBox value={searchQuery} onChange={onSearchChange} />
-                <table className='table'>
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Genre</th>
-                            <th>Stock</th>
-                            <th>Rate</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filteredMovies.map((movie) => (
-                            <tr key={movie._id}>
-                                <td>{movie.title}</td>
-                                <td>{movie.genre.name}</td>
-                                <td>{movie.numberInStock}</td>
-                                <td>{movie.dailyRentalRate}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                <MoviesTable movies={filteredMovies} />
                 <Pagination
                     currentPage={currentPage}
                     totalItems={listCount}
