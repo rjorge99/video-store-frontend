@@ -11,7 +11,7 @@ const storeSlice = createSlice({
             filteredList: [],
             listCount: 0,
             currentPage: 1,
-            pageSize: 4,
+            pageSize: 3,
             selectedGenre: '',
             searchQuery: ''
         },
@@ -29,10 +29,15 @@ const storeSlice = createSlice({
             state.movies.listCount = action.payload.listCount;
         },
         currentPageSetted: (state, action) => {
-            state.movies.currentPage = action.payload.currentPage;
+            state.movies.currentPage = action.payload;
+        },
+        searchQueryChanged: (state, action) => {
+            state.movies.searchQuery = action.payload;
+            state.movies.currentPage = 1;
+            state.movies.selectedGenre = '';
         },
         selectedGenreSetted: (state, action) => {
-            state.movies.selectedGenre = action.payload.genre;
+            state.movies.selectedGenre = action.payload;
             state.movies.currentPage = 1;
             state.searchQuery = '';
         },
@@ -53,36 +58,24 @@ export const getGenres = () => async (dispatch) => {
     dispatch(genresLoaded(genres));
 };
 
-export const setCurrentPage = (currentPage) => ({
-    type: currentPageSetted.type,
-    payload: { currentPage }
-});
-
-export const setSelectedGenre = (genre) => (dispatch, getState) => {
-    dispatch({ type: selectedGenreSetted.type, payload: { genre } });
-};
-
 export const filterMovies = () => (dispatch, getState) => {
-    let {
-        selectedGenre,
-        list: filteredMovies,
-        searchQuery,
-        pageSize,
-        currentPage
-    } = getState().movies;
+    const { selectedGenre, searchQuery, pageSize, currentPage } = getState().movies;
+    let { list: filteredMovies } = getState().movies;
+
+    if (searchQuery)
+        filteredMovies = filteredMovies.filter((movie) =>
+            movie.title.toLowerCase().startsWith(searchQuery.toLowerCase())
+        );
 
     if (selectedGenre)
         filteredMovies = filteredMovies.filter((movie) => movie.genre._id === selectedGenre);
 
     const movies = paginate(filteredMovies, pageSize, currentPage);
 
-    dispatch({
-        type: moviesFiltered.type,
-        payload: { filteredMovies: movies, listCount: filteredMovies.length }
-    });
+    dispatch(moviesFiltered({ filteredMovies: movies, listCount: filteredMovies.length }));
 };
 //#endregion
 
-const { moviesLoaded, genresLoaded, currentPageSetted, moviesFiltered, selectedGenreSetted } =
-    storeSlice.actions;
+const { moviesLoaded, genresLoaded, moviesFiltered } = storeSlice.actions;
+export const { searchQueryChanged, currentPageSetted, selectedGenreSetted } = storeSlice.actions;
 export default storeSlice.reducer;

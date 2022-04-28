@@ -1,14 +1,16 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+    currentPageSetted,
     filterMovies,
     getGenres,
     getMovies,
-    setCurrentPage,
-    setSelectedGenre
+    searchQueryChanged,
+    selectedGenreSetted
 } from '../../app/storeSlice';
 import { ListGroup } from '../../commons/components/ListGroup';
 import { Pagination } from '../../commons/components/Pagination';
+import { SearchBox } from '../../commons/SearchBox';
 
 export const Movies = () => {
     const dispatch = useDispatch();
@@ -19,7 +21,7 @@ export const Movies = () => {
         currentPage,
         pageSize,
         selectedGenre,
-        queryString
+        searchQuery
     } = useSelector((state) => state.movies);
 
     const { list: genres } = useSelector((state) => state.genres);
@@ -34,14 +36,18 @@ export const Movies = () => {
 
     useEffect(() => {
         dispatch(filterMovies());
-    }, [dispatch, movies, currentPage, selectedGenre]);
+    }, [dispatch, movies, currentPage, selectedGenre, searchQuery]);
 
     const onPageChange = (page) => {
-        dispatch(setCurrentPage(page));
+        dispatch(currentPageSetted(page));
     };
 
     const onGenreSelect = (genre) => {
-        dispatch(setSelectedGenre(genre._id));
+        dispatch(selectedGenreSetted(genre._id));
+    };
+
+    const onSearchChange = (value) => {
+        dispatch(searchQueryChanged(value));
     };
 
     return (
@@ -54,6 +60,7 @@ export const Movies = () => {
                 />
             </div>
             <div className='col-8'>
+                <SearchBox value={searchQuery} onChange={onSearchChange} />
                 <table className='table'>
                     <thead>
                         <tr>
