@@ -1,10 +1,9 @@
-export const SearchBox = ({ value, onChange }) => {
+export const SearchBox = ({ onChange, ...props }) => {
     return (
         <input
+            {...props}
             type='text'
-            className='form-control'
             placeholder='Search'
-            value={value}
             onChange={(e) => onChange(e.target.value)}
         />
     );

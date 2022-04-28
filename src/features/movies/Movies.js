@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import {
     currentPageSetted,
     filterMovies,
@@ -51,6 +52,10 @@ export const Movies = () => {
         dispatch(searchQueryChanged(value));
     };
 
+    const handleDeleteMovie = (movie) => {
+        console.log(movie);
+    };
+
     return (
         <div className='row my-3'>
             <div className='col-4'>
@@ -61,8 +66,15 @@ export const Movies = () => {
                 />
             </div>
             <div className='col-8'>
-                <SearchBox value={searchQuery} onChange={onSearchChange} />
-                <MoviesTable movies={filteredMovies} />
+                <Link className='btn btn-primary' to='/movies/new'>
+                    New Movie
+                </Link>
+                <SearchBox
+                    className='my-3 form-control'
+                    value={searchQuery}
+                    onChange={onSearchChange}
+                />
+                <MoviesTable movies={filteredMovies} handleDelete={handleDeleteMovie} />
                 <Pagination
                     currentPage={currentPage}
                     totalItems={listCount}

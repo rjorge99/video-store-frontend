@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import { Register } from '../components/Register';
 import { Rentals } from '../components/Rentals';
 import store from './configureStore';
+import { MoviesForm } from '../features/movies/MoviesForm';
 
 export const VideoStore = () => {
     return (
@@ -19,6 +20,7 @@ export const VideoStore = () => {
                         <Route path='/customers' element={<Customers />} />
                         <Route path='/login' element={<Login />} />
                         <Route path='/movies' element={<Movies />} />
+                        <Route path='/movies/:id' element={<MoviesForm />} />
                         <Route path='/not-found' element={<NotFound />} />
                         <Route path='/register' element={<Register />} />
                         <Route path='/rentals' element={<Rentals />} />
