@@ -13,7 +13,8 @@ const storeSlice = createSlice({
             currentPage: 1,
             pageSize: 3,
             selectedGenre: '',
-            searchQuery: ''
+            searchQuery: '',
+            loadedMovie: null
         },
         genres: {
             list: []
@@ -30,6 +31,9 @@ const storeSlice = createSlice({
         },
         currentPageSetted: (state, action) => {
             state.movies.currentPage = action.payload;
+        },
+        movieLoaded: (state, action) => {
+            state.movies.loadedMovie = action.payload;
         },
         searchQueryChanged: (state, action) => {
             state.movies.searchQuery = action.payload;
@@ -58,6 +62,11 @@ export const getGenres = () => async (dispatch) => {
     dispatch(genresLoaded(genres));
 };
 
+export const getMovie = (id) => async (dispatch) => {
+    const { data } = await moviesService.getMovie(id);
+    dispatch(movieLoaded(data));
+};
+
 export const filterMovies = () => (dispatch, getState) => {
     const { selectedGenre, searchQuery, pageSize, currentPage } = getState().movies;
     let { list: filteredMovies } = getState().movies;
@@ -76,6 +85,6 @@ export const filterMovies = () => (dispatch, getState) => {
 };
 //#endregion
 
-const { moviesLoaded, genresLoaded, moviesFiltered } = storeSlice.actions;
+const { moviesLoaded, genresLoaded, moviesFiltered, movieLoaded } = storeSlice.actions;
 export const { searchQueryChanged, currentPageSetted, selectedGenreSetted } = storeSlice.actions;
 export default storeSlice.reducer;
