@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
     currentPageSetted,
+    deleteMovie,
     filterMovies,
     getGenres,
     getMovies,
@@ -54,7 +55,7 @@ export const Movies = () => {
     };
 
     const handleDeleteMovie = (movie) => {
-        console.log(movie);
+        dispatch(deleteMovie(movie._id));
     };
 
     return (

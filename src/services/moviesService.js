@@ -11,5 +11,9 @@ const getMovie = async (id) => {
     return await http.get(`${endpoint}/${id}`);
 };
 
-const service = { getMovies, getMovie };
+const deleteMovie = async (id) => {
+    return await http.delete(`${endpoint}/${id}`);
+};
+
+const service = { getMovies, getMovie, deleteMovie };
 export default service;
