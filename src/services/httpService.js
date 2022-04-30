@@ -9,5 +9,21 @@ axios.interceptors.response.use(null, (error) => {
     return Promise.reject(error);
 });
 
-const service = { get: axios.get, post: axios.post, put: axios.put, delete: axios.delete };
+const setJwt = (jwt) => {
+    console.log(jwt);
+    axios.defaults.headers.common['x-auth-token'] = jwt;
+};
+
+const removeJwt = (jwt) => {
+    delete axios.defaults.headers.common['x-auth-token'];
+};
+
+const service = {
+    setJwt,
+    removeJwt,
+    get: axios.get,
+    post: axios.post,
+    put: axios.put,
+    delete: axios.delete
+};
 export default service;

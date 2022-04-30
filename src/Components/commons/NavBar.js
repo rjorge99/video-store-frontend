@@ -1,6 +1,11 @@
 import { NavLink } from 'react-router-dom';
+import authService from '../../services/authService';
 
 export const NavBar = () => {
+    const handleLogout = () => {
+        authService.logout();
+    };
+
     return (
         <nav className='navbar navbar-expand-lg navbar-dark bg-dark'>
             <div className='container-fluid'>
@@ -43,6 +48,12 @@ export const NavBar = () => {
                             className={({ isActive }) => `nav-link ${isActive && 'active'}`}
                             to='/register'>
                             Register
+                        </NavLink>
+                        <NavLink
+                            onClick={handleLogout}
+                            className={({ isActive }) => `nav-link ${isActive && 'active'}`}
+                            to='/login'>
+                            Logout
                         </NavLink>
                     </div>
                 </div>

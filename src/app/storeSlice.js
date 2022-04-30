@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import moviesService from '../services/moviesService';
 import genresService from '../services/genresService';
 import { paginate } from '../components/commons/utils/paginate';
+import { toast } from 'react-toastify';
 
 const storeSlice = createSlice({
     name: 'videoStore',
@@ -72,6 +73,7 @@ export const deleteMovie = (id) => async (dispatch, getState) => {
         dispatch(movieDeleted(id));
         await moviesService.deleteMovie(id);
     } catch (err) {
+        toast.error(err.response.data);
         dispatch(stateRestored(originalMoviesState));
     }
 };
