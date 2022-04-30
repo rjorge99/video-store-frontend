@@ -11,6 +11,7 @@ const login = async (username, password) => {
 };
 
 const loginWithJwt = (jwt) => {
+    console.log(jwt);
     localStorage.setItem(tokenKey, jwt);
 };
 
