@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import moviesService from '../services/moviesService';
 import genresService from '../services/genresService';
-import { paginate } from '../components/commons/utils/paginate';
 import { toast } from 'react-toastify';
+import { paginate } from '../commons/utils/paginate';
 
 const storeSlice = createSlice({
     name: 'videoStore',

@@ -1,7 +1,8 @@
 import authService from '../services/authService';
-import { Form, Formik, Field, ErrorMessage } from 'formik';
+import { Form, Formik } from 'formik';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
+import { MyTextInput } from '../commons/components/Formik/MyTextInput';
 
 export const Login = () => {
     return (
@@ -21,33 +22,18 @@ export const Login = () => {
             }}>
             {({ isSubmitting }) => (
                 <Form>
-                    <div className='mb-3'>
-                        <label htmlFor='username' className='form-label'>
-                            Username
-                        </label>
-                        <Field className='form-control' id='username' type='text' name='username' />
-                        <ErrorMessage
-                            name='username'
-                            component='div'
-                            className='alert alert-danger'
-                        />
-                    </div>
-                    <div className='mb-3'>
-                        <label htmlFor='password' className='form-label'>
-                            Password
-                        </label>
-                        <Field
-                            className='form-control'
-                            id='password'
-                            type='password'
-                            name='password'
-                        />
-                        <ErrorMessage
-                            name='password'
-                            component='div'
-                            className='alert alert-danger'
-                        />
-                    </div>
+                    <MyTextInput
+                        label='Username'
+                        name='username'
+                        type='text'
+                        placeholder='Username'
+                    />
+                    <MyTextInput
+                        label='Password'
+                        name='password'
+                        type='text'
+                        placeholder='Password'
+                    />
                     <button className='btn btn-primary' type='submit' disabled={isSubmitting}>
                         Submit
                     </button>
