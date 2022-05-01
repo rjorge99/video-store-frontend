@@ -1,15 +1,19 @@
-import { createSlice } from '@reduxjs/toolkit';
-import moviesService from '../services/moviesService';
-import genresService from '../services/genresService';
 import authService from '../services/authService';
-import { toast } from 'react-toastify';
-import { paginate } from '../commons/utils/paginate';
+import genresService from '../services/genresService';
 import jwtDecode from 'jwt-decode';
+import moviesService from '../services/moviesService';
+import userService from '../services/userService';
+import { createSlice } from '@reduxjs/toolkit';
+import { paginate } from '../commons/utils/paginate';
+import { toast } from 'react-toastify';
 
 const storeSlice = createSlice({
     name: 'videoStore',
     initialState: {
-        user: null,
+        auth: {
+            user: null,
+            loggedIn: false
+        },
         movies: {
             list: [],
             filteredList: [],
@@ -56,10 +60,12 @@ const storeSlice = createSlice({
             state.genres.list = [{ _id: '', name: 'Select a Genre' }, ...action.payload];
         },
         userLoggedIn: (state, action) => {
-            state.user = action.payload;
+            state.auth.user = action.payload;
+            state.auth.loggedIn = true;
         },
         userLoggedOut: (state, action) => {
-            state.user = null;
+            state.auth.user = null;
+            state.auth.loggedIn = false;
         }
     }
 });
@@ -107,20 +113,37 @@ export const filterMovies = () => (dispatch, getState) => {
 export const login = (formData) => async (dispatch) => {
     try {
         const jwt = await authService.login(formData.username, formData.password);
-        const user = jwtDecode(jwt);
-        dispatch(userLoggedIn(user));
-        // window.location = '/'; //TODO: Buscar otra manera, actualmene se usa de esta manera para establece el token, posible uso de action creators ?
+        dispatch(userLoggedIn(jwtDecode(jwt)));
     } catch (error) {
         if (error.response.status === 400) toast.error(error.response.data);
     }
 };
-export const logout = (formData) => async (dispatch) => {
+export const register = (formData) => async (dispatch) => {
+    try {
+        const response = await userService.register(
+            formData.username,
+            formData.email,
+            formData.password
+        );
+
+        const jwt = response.headers['x-auth-token'];
+        authService.loginWithJwt(jwt);
+        dispatch(userLoggedIn(jwtDecode(jwt)));
+    } catch (error) {
+        if (error.response.status === 400) toast.error(error.response.data);
+    }
+};
+export const logout = () => async (dispatch) => {
     authService.logout();
     dispatch(userLoggedOut());
 };
 export const loginWithJWT = (jwt) => async (dispatch) => {
-    const user = jwtDecode(jwt);
-    dispatch(userLoggedIn(user));
+    try {
+        const { data: user } = await authService.validateToken(jwt);
+        dispatch(userLoggedIn(user));
+    } catch (error) {
+        dispatch(userLoggedOut());
+    }
 };
 
 //#endregion

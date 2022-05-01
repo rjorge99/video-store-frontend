@@ -11,6 +11,15 @@ const login = async (username, password) => {
     return jwt;
 };
 
+const validateToken = async (token) => {
+    try {
+        return await httpService.post(`${endpoint}/validateToken`);
+    } catch (error) {
+        httpService.removeJwt();
+        localStorage.removeItem(tokenKey);
+    }
+};
+
 const loginWithJwt = (jwt) => {
     localStorage.setItem(tokenKey, jwt);
 };
@@ -24,5 +33,5 @@ function getJwt() {
     return localStorage.getItem(tokenKey);
 }
 
-const service = { login, logout, loginWithJwt };
+const service = { login, logout, loginWithJwt, validateToken };
 export default service;

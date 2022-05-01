@@ -4,15 +4,15 @@ import { Login } from '../components/Login';
 import { Movies } from '../features/movies/Movies';
 import { NavBar } from '../components/commons/NavBar';
 import { NotFound } from '../components/commons/NotFound';
-import { Provider, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Register } from '../components/Register';
 import { Rentals } from '../components/Rentals';
 import { MoviesForm } from '../features/movies/MoviesForm';
 
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { useEffect } from 'react';
 import { loginWithJWT } from './storeSlice';
+import { ToastContainer } from 'react-toastify';
+import { useEffect } from 'react';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const VideoStore = () => {
     const dispatch = useDispatch();
@@ -20,7 +20,7 @@ export const VideoStore = () => {
     useEffect(() => {
         const jwt = localStorage.getItem('token');
         if (jwt) dispatch(loginWithJWT(jwt));
-    }, []);
+    }, [dispatch]);
 
     return (
         <>

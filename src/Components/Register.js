@@ -1,11 +1,11 @@
-import authService from '../services/authService';
-import userService from '../services/userService';
 import { Form, Formik } from 'formik';
-import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import { MyTextInput } from '../commons/components/Formik/MyTextInput';
+import { useDispatch } from 'react-redux';
+import { register } from '../app/storeSlice';
 
 export const Register = () => {
+    const dispatch = useDispatch();
     return (
         <Formik
             initialValues={{ username: '', email: '', password: '' }}
@@ -15,17 +15,7 @@ export const Register = () => {
                 password: Yup.string().min(5).max(20).required().label('Password')
             })}
             onSubmit={async (formData) => {
-                try {
-                    const response = await userService.register(
-                        formData.username,
-                        formData.email,
-                        formData.password
-                    );
-                    authService.loginWithJwt(response.headers['x-auth-token']);
-                    window.location = '/'; //TODO: Buscar otra manera, actualmene se usa de esta manera para establece el token, posible uso de action creators ?
-                } catch (error) {
-                    if (error.response.status === 400) toast.error(error.response.data);
-                }
+                dispatch(register(formData));
             }}>
             {({ isSubmitting }) => (
                 <div>

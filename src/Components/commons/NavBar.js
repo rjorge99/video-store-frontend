@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { logout } from '../../app/storeSlice';
 
 export const NavBar = () => {
-    const { user } = useSelector((state) => state);
+    const { loggedIn } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
 
     return (
@@ -39,21 +39,21 @@ export const NavBar = () => {
                             to='/rentals'>
                             Rentals
                         </NavLink> */}
-                        {!user && (
+                        {!loggedIn && (
                             <NavLink
                                 className={({ isActive }) => `nav-link ${isActive && 'active'}`}
                                 to='/login'>
                                 Login
                             </NavLink>
                         )}
-                        {!user && (
+                        {!loggedIn && (
                             <NavLink
                                 className={({ isActive }) => `nav-link ${isActive && 'active'}`}
                                 to='/register'>
                                 Register
                             </NavLink>
                         )}
-                        {user && (
+                        {loggedIn && (
                             <NavLink
                                 className={({ isActive }) => `nav-link ${isActive && 'active'}`}
                                 onClick={() => dispatch(logout())}
