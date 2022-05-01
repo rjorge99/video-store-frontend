@@ -4,18 +4,26 @@ import { Login } from '../components/Login';
 import { Movies } from '../features/movies/Movies';
 import { NavBar } from '../components/commons/NavBar';
 import { NotFound } from '../components/commons/NotFound';
-import { Provider } from 'react-redux';
+import { Provider, useDispatch } from 'react-redux';
 import { Register } from '../components/Register';
 import { Rentals } from '../components/Rentals';
-import store from './configureStore';
 import { MoviesForm } from '../features/movies/MoviesForm';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useEffect } from 'react';
+import { loginWithJWT } from './storeSlice';
 
 export const VideoStore = () => {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const jwt = localStorage.getItem('token');
+        if (jwt) dispatch(loginWithJWT(jwt));
+    }, []);
+
     return (
-        <Provider store={store}>
+        <>
             <ToastContainer />
             <BrowserRouter>
                 <NavBar />
@@ -33,6 +41,6 @@ export const VideoStore = () => {
                     </Routes>
                 </div>
             </BrowserRouter>
-        </Provider>
+        </>
     );
 };

@@ -1,7 +1,9 @@
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Table } from '../../commons/components/Table';
 
 export const MoviesTable = ({ movies, handleDelete }) => {
+    const { user } = useSelector((state) => state);
     const columns = [
         {
             path: 'title',
@@ -10,8 +12,11 @@ export const MoviesTable = ({ movies, handleDelete }) => {
         },
         { path: 'genre.name', label: 'Genre' },
         { path: 'numberInStock', label: 'Stock' },
-        { path: 'dailyRentalRate', label: 'Rate' },
-        {
+        { path: 'dailyRentalRate', label: 'Rate' }
+    ];
+
+    if (user)
+        columns.push({
             key: 'delete',
             label: '',
             content: (movie) => (
@@ -19,8 +24,7 @@ export const MoviesTable = ({ movies, handleDelete }) => {
                     Delete
                 </button>
             )
-        }
-    ];
+        });
 
     return <Table data={movies} columns={columns} />;
 };

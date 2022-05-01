@@ -28,24 +28,27 @@ export const Register = () => {
                 }
             }}>
             {({ isSubmitting }) => (
-                <Form>
-                    <MyTextInput
-                        label='Username'
-                        name='username'
-                        type='text'
-                        placeholder='Username'
-                    />
-                    <MyTextInput label='Email' name='email' type='email' placeholder='Email' />
-                    <MyTextInput
-                        label='Password'
-                        name='password'
-                        type='text'
-                        placeholder='Password'
-                    />
-                    <button className='btn btn-primary' type='submit' disabled={isSubmitting}>
-                        Submit
-                    </button>
-                </Form>
+                <div>
+                    <h1>Register</h1>
+                    <Form>
+                        <MyTextInput
+                            label='Username'
+                            name='username'
+                            type='text'
+                            placeholder='Username'
+                        />
+                        <MyTextInput label='Email' name='email' type='email' placeholder='Email' />
+                        <MyTextInput
+                            label='Password'
+                            name='password'
+                            type='text'
+                            placeholder='Password'
+                        />
+                        <button className='btn btn-primary' type='submit' disabled={isSubmitting}>
+                            Submit
+                        </button>
+                    </Form>
+                </div>
             )}
         </Formik>
     );

@@ -17,6 +17,7 @@ import { MoviesTable } from './MoviesTable';
 
 export const Movies = () => {
     const dispatch = useDispatch();
+    const { user } = useSelector((state) => state);
 
     const {
         list: movies,
@@ -68,9 +69,11 @@ export const Movies = () => {
                 />
             </div>
             <div className='col-8'>
-                <Link className='btn btn-primary' to='/movies/new'>
-                    New Movie
-                </Link>
+                {user && (
+                    <Link className='btn btn-primary' to='/movies/new'>
+                        New Movie
+                    </Link>
+                )}
                 <SearchBox
                     className='my-3 form-control'
                     value={searchQuery}

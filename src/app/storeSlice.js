@@ -1,12 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 import moviesService from '../services/moviesService';
 import genresService from '../services/genresService';
+import authService from '../services/authService';
 import { toast } from 'react-toastify';
 import { paginate } from '../commons/utils/paginate';
+import jwtDecode from 'jwt-decode';
 
 const storeSlice = createSlice({
     name: 'videoStore',
     initialState: {
+        user: null,
         movies: {
             list: [],
             filteredList: [],
@@ -51,6 +54,12 @@ const storeSlice = createSlice({
         },
         genresLoaded: (state, action) => {
             state.genres.list = [{ _id: '', name: 'Select a Genre' }, ...action.payload];
+        },
+        userLoggedIn: (state, action) => {
+            state.user = action.payload;
+        },
+        userLoggedOut: (state, action) => {
+            state.user = null;
         }
     }
 });
@@ -94,9 +103,32 @@ export const filterMovies = () => (dispatch, getState) => {
 
     dispatch(moviesFiltered({ filteredMovies: movies, listCount: filteredMovies.length }));
 };
+
+export const login = (formData) => async (dispatch) => {
+    try {
+        const jwt = await authService.login(formData.username, formData.password);
+        const user = jwtDecode(jwt);
+        dispatch(userLoggedIn(user));
+        window.location = '/'; //TODO: Buscar otra manera, actualmene se usa de esta manera para establece el token, posible uso de action creators ?
+    } catch (error) {
+        if (error.response.status === 400) toast.error(error.response.data);
+    }
+};
+export const loginWithJWT = (jwt) => async (dispatch) => {
+    const user = jwtDecode(jwt);
+    dispatch(userLoggedIn(user));
+};
+
 //#endregion
 
-const { moviesLoaded, genresLoaded, moviesFiltered, movieDeleted, stateRestored } =
-    storeSlice.actions;
+const {
+    moviesLoaded,
+    genresLoaded,
+    moviesFiltered,
+    movieDeleted,
+    stateRestored,
+    userLoggedOut,
+    userLoggedIn
+} = storeSlice.actions;
 export const { searchQueryChanged, currentPageSetted, selectedGenreSetted } = storeSlice.actions;
 export default storeSlice.reducer;

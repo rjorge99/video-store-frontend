@@ -10,7 +10,6 @@ axios.interceptors.response.use(null, (error) => {
 });
 
 const setJwt = (jwt) => {
-    console.log(jwt);
     axios.defaults.headers.common['x-auth-token'] = jwt;
 };
 
