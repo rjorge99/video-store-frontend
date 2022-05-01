@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Table } from '../../commons/components/Table';
 
 export const MoviesTable = ({ movies, handleDelete }) => {
-    const { user } = useSelector((state) => state);
+    const { loggedIn } = useSelector((state) => state.auth);
     const columns = [
         {
             path: 'title',
@@ -15,7 +15,7 @@ export const MoviesTable = ({ movies, handleDelete }) => {
         { path: 'dailyRentalRate', label: 'Rate' }
     ];
 
-    if (user)
+    if (loggedIn)
         columns.push({
             key: 'delete',
             label: '',
