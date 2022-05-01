@@ -109,10 +109,14 @@ export const login = (formData) => async (dispatch) => {
         const jwt = await authService.login(formData.username, formData.password);
         const user = jwtDecode(jwt);
         dispatch(userLoggedIn(user));
-        window.location = '/'; //TODO: Buscar otra manera, actualmene se usa de esta manera para establece el token, posible uso de action creators ?
+        // window.location = '/'; //TODO: Buscar otra manera, actualmene se usa de esta manera para establece el token, posible uso de action creators ?
     } catch (error) {
         if (error.response.status === 400) toast.error(error.response.data);
     }
+};
+export const logout = (formData) => async (dispatch) => {
+    authService.logout();
+    dispatch(userLoggedOut());
 };
 export const loginWithJWT = (jwt) => async (dispatch) => {
     const user = jwtDecode(jwt);
@@ -127,8 +131,8 @@ const {
     moviesFiltered,
     movieDeleted,
     stateRestored,
-    userLoggedOut,
-    userLoggedIn
+    userLoggedIn,
+    userLoggedOut
 } = storeSlice.actions;
 export const { searchQueryChanged, currentPageSetted, selectedGenreSetted } = storeSlice.actions;
 export default storeSlice.reducer;

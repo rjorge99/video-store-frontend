@@ -33,6 +33,9 @@ export const MoviesForm = () => {
         <>
             <div>{JSON.stringify(movie, null, 3)}</div>
             <div>{JSON.stringify(genres, null, 3)}</div>
+            <button className='btn btn-primary' onClick={() => navigate(-1, { replace: true })}>
+                Return
+            </button>
         </>
     );
 };

@@ -1,12 +1,10 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import authService from '../../services/authService';
+import { logout } from '../../app/storeSlice';
 
 export const NavBar = () => {
     const { user } = useSelector((state) => state);
-    const handleLogout = () => {
-        authService.logout();
-    };
+    const dispatch = useDispatch();
 
     return (
         <nav className='navbar navbar-expand-lg navbar-dark bg-dark'>
@@ -57,8 +55,8 @@ export const NavBar = () => {
                         )}
                         {user && (
                             <NavLink
-                                onClick={handleLogout}
                                 className={({ isActive }) => `nav-link ${isActive && 'active'}`}
+                                onClick={() => dispatch(logout())}
                                 to='/login'>
                                 Logout
                             </NavLink>
