@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import moviesService from '../../services/moviesService';
@@ -26,7 +26,7 @@ export const MoviesForm = () => {
         async function loadData() {
             try {
                 const { data } = await moviesService.getMovie(id);
-                setMovie(data);
+                setMovie(mapToViewModel(data));
             } catch (error) {
                 if (error.response.status === 404) navigate('/movies', { replace: true });
             }
@@ -35,15 +35,23 @@ export const MoviesForm = () => {
         loadData();
     }, [id]);
 
+    const mapToViewModel = useCallback((movie) => {
+        return {
+            _id: movie._id,
+            title: movie.title,
+            genreId: movie.genre._id,
+            numberInStock: movie.numberInStock,
+            dailyRentalRate: movie.dailyRentalRate
+        };
+    }, []);
+
+    useCallback((movie) => []);
+
     return (
         <>
             <Formik
-                initialValues={{
-                    title: '',
-                    genreId: '',
-                    numberInStock: 0,
-                    dailyRentalRate: 0
-                }}
+                enableReinitialize={true}
+                initialValues={movie}
                 validationSchema={Yup.object({
                     title: Yup.string().min(5).max(200).required().label('Title'),
                     genreId: Yup.string().min(1).max(100).required().label('Genre'),

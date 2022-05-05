@@ -14,7 +14,7 @@ const getMovie = async (id) => {
 const saveMovie = async (movie) => {
     if (movie._id) {
         const { _id, ...body } = movie;
-        return await http.post(`${endpoint}/${movie._id}`, body);
+        return await http.put(`${endpoint}/${movie._id}`, body);
     } else return await http.post(`${endpoint}`, movie);
 };
 
