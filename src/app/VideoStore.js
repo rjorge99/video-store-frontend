@@ -2,22 +2,20 @@ import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { Customers } from '../components/Customers';
 import { Login } from '../components/Login';
 import { Movies } from '../features/movies/Movies';
+import { MoviesForm } from '../features/movies/MoviesForm';
 import { NavBar } from '../components/commons/NavBar';
 import { NotFound } from '../components/commons/NotFound';
-import { useDispatch, useSelector } from 'react-redux';
+import { PrivateRoutes } from './router/PrivateRoutes';
+import { PublicRoutes } from './router/PublicRoutes';
 import { Register } from '../components/Register';
 import { Rentals } from '../components/Rentals';
-import { MoviesForm } from '../features/movies/MoviesForm';
-
-import { loginWithJWT } from './storeSlice';
 import { ToastContainer } from 'react-toastify';
+import { loginWithJWT } from './storeSlice';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
-import { PublicRoutes } from './router/PublicRoutes';
-import { PrivateRoutes } from './router/PrivateRoutes';
 
 export const VideoStore = () => {
-    const { isLoggedIn } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -35,18 +33,18 @@ export const VideoStore = () => {
                         <Route
                             path='/auth/*'
                             element={
-                                <PublicRoutes isLoggedIn={isLoggedIn}>
+                                <PublicRoutes>
                                     <Routes>
-                                        <Route path='/auth/login' element={<Login />} />
-                                        <Route path='/auth/register' element={<Register />} />
+                                        <Route path='/login' element={<Login />} />
+                                        <Route path='/register' element={<Register />} />
                                     </Routes>
                                 </PublicRoutes>
                             }
                         />
                         <Route
-                            path='/'
+                            path='/*'
                             element={
-                                <PrivateRoutes isLoggedIn={isLoggedIn}>
+                                <PrivateRoutes>
                                     <Routes>
                                         <Route path='/customers' element={<Customers />} />
                                         <Route path='/movies' element={<Movies />} />

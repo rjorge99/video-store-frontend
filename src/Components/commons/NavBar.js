@@ -42,14 +42,14 @@ export const NavBar = () => {
                         {!loggedIn && (
                             <NavLink
                                 className={({ isActive }) => `nav-link ${isActive && 'active'}`}
-                                to='/login'>
+                                to='/auth/login'>
                                 Login
                             </NavLink>
                         )}
                         {!loggedIn && (
                             <NavLink
                                 className={({ isActive }) => `nav-link ${isActive && 'active'}`}
-                                to='/register'>
+                                to='/auth/register'>
                                 Register
                             </NavLink>
                         )}
@@ -57,7 +57,7 @@ export const NavBar = () => {
                             <NavLink
                                 className={({ isActive }) => `nav-link ${isActive && 'active'}`}
                                 onClick={() => dispatch(logout())}
-                                to='/login'>
+                                to='/auth/login'>
                                 Logout
                             </NavLink>
                         )}

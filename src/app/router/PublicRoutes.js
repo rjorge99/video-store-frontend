@@ -1,5 +1,7 @@
+import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
-export const PublicRoutes = ({ isLoggedIn, children }) => {
-    return isLoggedIn ? <Navigate to='/videos' replace /> : children;
+export const PublicRoutes = ({ children }) => {
+    const { loggedIn } = useSelector((state) => state.auth);
+    return loggedIn ? <Navigate to='/movies' replace /> : children;
 };
