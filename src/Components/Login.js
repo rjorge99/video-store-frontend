@@ -1,7 +1,5 @@
-import authService from '../services/authService';
-import { Form, Formik } from 'formik';
-import { toast } from 'react-toastify';
 import * as Yup from 'yup';
+import { Form, Formik } from 'formik';
 import { MyTextInput } from '../commons/components/Formik/MyTextInput';
 import { login } from '../app/storeSlice';
 import { useDispatch } from 'react-redux';
