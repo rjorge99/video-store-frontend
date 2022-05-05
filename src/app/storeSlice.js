@@ -58,7 +58,7 @@ const storeSlice = createSlice({
             state.searchQuery = '';
         },
         genresLoaded: (state, action) => {
-            state.genres.list = [...action.payload];
+            state.genres.list = [{ _id: '', name: 'Select a Genre' }, ...action.payload];
         },
         userLoggedIn: (state, action) => {
             state.auth.user = action.payload;

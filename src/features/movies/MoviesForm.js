@@ -76,7 +76,6 @@ export const MoviesForm = () => {
                                 placeholder='Title'
                             />
                             <MySelect label='Genre' name='genreId'>
-                                <option value=''>Select a Genre</option>
                                 {genres.map((genre) => (
                                     <option key={genre._id} value={genre._id}>
                                         {genre.name}
