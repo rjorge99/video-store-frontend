@@ -6,6 +6,7 @@ import userService from '../services/userService';
 import { createSlice } from '@reduxjs/toolkit';
 import { paginate } from '../commons/utils/paginate';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const storeSlice = createSlice({
     name: 'videoStore',
@@ -19,7 +20,7 @@ const storeSlice = createSlice({
             filteredList: [],
             listCount: 0,
             currentPage: 1,
-            pageSize: 5,
+            pageSize: 3,
             selectedGenre: '',
             searchQuery: '',
             loadedMovie: null
@@ -57,7 +58,7 @@ const storeSlice = createSlice({
             state.searchQuery = '';
         },
         genresLoaded: (state, action) => {
-            state.genres.list = [{ _id: '', name: 'Select a Genre' }, ...action.payload];
+            state.genres.list = [...action.payload];
         },
         userLoggedIn: (state, action) => {
             state.auth.user = action.payload;
@@ -74,6 +75,13 @@ const storeSlice = createSlice({
 export const getMovies = () => async (dispatch) => {
     const movies = await moviesService.getMovies();
     dispatch(moviesLoaded(movies));
+};
+export const saveMovie = (movie) => async (dispatch) => {
+    try {
+        await moviesService.saveMovie(movie);
+    } catch (err) {
+        toast.error(err.response.data);
+    }
 };
 
 export const getGenres = () => async (dispatch) => {
@@ -113,6 +121,7 @@ export const filterMovies = () => (dispatch, getState) => {
 export const login = (formData) => async (dispatch) => {
     try {
         const jwt = await authService.login(formData.username, formData.password);
+        authService.setJwt(jwt);
         dispatch(userLoggedIn(jwtDecode(jwt)));
     } catch (error) {
         if (error.response.status === 400) toast.error(error.response.data);
@@ -139,6 +148,7 @@ export const logout = () => async (dispatch) => {
 };
 export const loginWithJWT = (jwt) => async (dispatch) => {
     try {
+        authService.setJwt(jwt);
         const { data: user } = await authService.validateToken(jwt);
         dispatch(userLoggedIn(user));
     } catch (error) {

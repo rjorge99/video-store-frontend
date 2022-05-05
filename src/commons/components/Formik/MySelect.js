@@ -1,6 +1,6 @@
 import { useField, ErrorMessage } from 'formik';
 
-export const MyTextInput = ({ label, ...props }) => {
+export const MySelect = ({ label, ...props }) => {
     const [field] = useField(props);
     return (
         <>
@@ -8,7 +8,7 @@ export const MyTextInput = ({ label, ...props }) => {
                 <label htmlFor='props.id || props.name' className='form-label'>
                     {label}
                 </label>
-                <input className='form-control' {...field} {...props} />
+                <select className='form-control' {...props} {...field} />
                 <ErrorMessage name={props.name} component='div' className='alert alert-danger' />
             </div>
         </>

@@ -3,8 +3,6 @@ import httpService from './httpService';
 const endpoint = 'http://localhost:9000/api/auth';
 const tokenKey = 'token';
 
-httpService.setJwt(getJwt());
-
 const login = async (username, password) => {
     const { data: jwt } = await httpService.post(`${endpoint}`, { username, password });
     localStorage.setItem(tokenKey, jwt);
@@ -29,9 +27,9 @@ const logout = () => {
     localStorage.removeItem(tokenKey);
 };
 
-function getJwt() {
-    return localStorage.getItem(tokenKey);
+function setJwt() {
+    httpService.setJwt(localStorage.getItem(tokenKey));
 }
 
-const service = { login, logout, loginWithJwt, validateToken };
+const service = { setJwt, login, logout, loginWithJwt, validateToken };
 export default service;

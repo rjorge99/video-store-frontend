@@ -17,7 +17,7 @@ import { MoviesTable } from './MoviesTable';
 
 export const Movies = () => {
     const dispatch = useDispatch();
-    const { user } = useSelector((state) => state);
+    const { loggedIn } = useSelector((state) => state.auth);
 
     const {
         list: movies,
@@ -69,7 +69,7 @@ export const Movies = () => {
                 />
             </div>
             <div className='col-8'>
-                {user && (
+                {loggedIn && (
                     <Link className='btn btn-primary' to='/movies/new'>
                         New Movie
                     </Link>
