@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import authService from '../services/authService';
 import genresService from '../services/genresService';
 import jwtDecode from 'jwt-decode';
@@ -76,12 +77,16 @@ export const getMovies = () => async (dispatch) => {
     const movies = await moviesService.getMovies();
     dispatch(moviesLoaded(movies));
 };
-export const saveMovie = (movie) => async (dispatch) => {
-    try {
-        await moviesService.saveMovie(movie);
-    } catch (err) {
-        toast.error(err.response.data);
-    }
+export const saveMovie = (movie) => (dispatch) => {
+    return new Promise(async (resolved, reject) => {
+        try {
+            await moviesService.saveMovie(movie);
+            resolved();
+        } catch (error) {
+            toast.error(error.response.data);
+            reject(error);
+        }
+    });
 };
 
 export const getGenres = () => async (dispatch) => {
@@ -113,7 +118,9 @@ export const filterMovies = () => (dispatch, getState) => {
     if (selectedGenre)
         filteredMovies = filteredMovies.filter((movie) => movie.genre._id === selectedGenre);
 
-    const movies = paginate(filteredMovies, pageSize, currentPage);
+    const sorted = _.orderBy(filteredMovies, 'title', 'asc');
+
+    const movies = paginate(sorted, pageSize, currentPage);
 
     dispatch(moviesFiltered({ filteredMovies: movies, listCount: filteredMovies.length }));
 };

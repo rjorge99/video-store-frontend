@@ -45,8 +45,6 @@ export const MoviesForm = () => {
         };
     }, []);
 
-    useCallback((movie) => []);
-
     return (
         <>
             <Formik
@@ -63,7 +61,9 @@ export const MoviesForm = () => {
                         .label('Daily rental rate')
                 })}
                 onSubmit={(formData) => {
-                    dispatch(saveMovie(formData));
+                    dispatch(saveMovie(formData)).then(() =>
+                        navigate('/movies', { replace: true })
+                    );
                 }}>
                 {({ isSubmitting }) => (
                     <>
