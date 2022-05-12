@@ -1,19 +1,19 @@
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
-import { Customers } from '../components/Customers';
-import { Login } from '../components/Login';
-import { Movies } from '../features/movies/Movies';
-import { MoviesForm } from '../features/movies/MoviesForm';
-import { NavBar } from '../components/commons/NavBar';
-import { NotFound } from '../components/commons/NotFound';
 import { PrivateRoutes } from './router/PrivateRoutes';
 import { PublicRoutes } from './router/PublicRoutes';
-import { Register } from '../components/Register';
-import { Rentals } from '../components/Rentals';
 import { ToastContainer } from 'react-toastify';
 import { loginWithJWT } from './storeSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
+import { Login } from '../components/Login';
+import { Register } from '../components/Register';
+import { Movies } from '../components/Movies';
+import { MoviesForm } from '../components/MoviesForm';
+import { NotFound } from '../components/commons/NotFound';
+import { Rentals } from '../components/Rentals';
+import { NavBar } from '../components/commons/NavBar';
+import { Customers } from '../components/Customers';
 
 export const VideoStore = () => {
     const dispatch = useDispatch();

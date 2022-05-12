@@ -9,10 +9,10 @@ import {
     getMovies,
     searchQueryChanged,
     selectedGenreSetted
-} from '../../app/storeSlice';
-import { ListGroup } from '../../commons/components/ListGroup';
-import { Pagination } from '../../commons/components/Pagination';
-import { SearchBox } from '../../commons/components/SearchBox';
+} from '../app/storeSlice';
+import { ListGroup } from './commons/ListGroup';
+import { Pagination } from './commons/Pagination';
+import { SearchBox } from './commons/SearchBox';
 import { MoviesTable } from './MoviesTable';
 
 export const Movies = () => {

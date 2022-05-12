@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Table } from '../../commons/components/Table';
+import { Table } from './commons/Table';
 
 export const MoviesTable = ({ movies, handleDelete }) => {
     const { loggedIn } = useSelector((state) => state.auth);

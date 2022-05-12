@@ -2,11 +2,11 @@ import * as Yup from 'yup';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import moviesService from '../../services/moviesService';
+import moviesService from '../services/moviesService';
 import { Form, Formik } from 'formik';
-import { MyTextInput } from '../../commons/components/Formik/MyTextInput';
-import { MySelect } from '../../commons/components/Formik/MySelect';
-import { saveMovie } from '../../app/storeSlice';
+import { saveMovie } from '../app/storeSlice';
+import { MyTextInput } from './Formik/MyTextInput';
+import { MySelect } from './Formik/MySelect';
 
 export const MoviesForm = () => {
     const dispatch = useDispatch();
@@ -19,6 +19,16 @@ export const MoviesForm = () => {
     const { list: genres } = useSelector((state) => state.genres);
     const { id } = useParams();
     const navigate = useNavigate();
+
+    const mapToViewModel = useCallback((movie) => {
+        return {
+            _id: movie._id,
+            title: movie.title,
+            genreId: movie.genre._id,
+            numberInStock: movie.numberInStock,
+            dailyRentalRate: movie.dailyRentalRate
+        };
+    }, []);
 
     useEffect(() => {
         if (id === 'new') return;
@@ -33,17 +43,7 @@ export const MoviesForm = () => {
         }
 
         loadData();
-    }, [id]);
-
-    const mapToViewModel = useCallback((movie) => {
-        return {
-            _id: movie._id,
-            title: movie.title,
-            genreId: movie.genre._id,
-            numberInStock: movie.numberInStock,
-            dailyRentalRate: movie.dailyRentalRate
-        };
-    }, []);
+    }, [id, mapToViewModel, navigate]);
 
     return (
         <>

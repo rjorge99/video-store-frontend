@@ -1,8 +1,8 @@
 import * as Yup from 'yup';
 import { Form, Formik } from 'formik';
-import { MyTextInput } from '../commons/components/Formik/MyTextInput';
 import { login } from '../app/storeSlice';
 import { useDispatch } from 'react-redux';
+import { MyTextInput } from './Formik/MyTextInput';
 
 export const Login = () => {
     const dispatch = useDispatch();

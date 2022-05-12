@@ -5,9 +5,8 @@ import jwtDecode from 'jwt-decode';
 import moviesService from '../services/moviesService';
 import userService from '../services/userService';
 import { createSlice } from '@reduxjs/toolkit';
-import { paginate } from '../commons/utils/paginate';
+import { paginate } from '../components/utils/paginate';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
 
 const storeSlice = createSlice({
     name: 'videoStore',
