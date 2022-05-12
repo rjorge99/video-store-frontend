@@ -6,14 +6,14 @@ import { loginWithJWT } from './storeSlice';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
-import { Login } from '../componentes/Login';
-import { Register } from '../componentes/Register';
-import { Movies } from '../componentes/Movies';
-import { MoviesForm } from '../componentes/MoviesForm';
-import { NotFound } from '../componentes/commons/NotFound';
-import { Rentals } from '../componentes/Rentals';
-import { NavBar } from '../componentes/commons/NavBar';
-import { Customers } from '../componentes/Customers';
+import { Login } from '../components/Login';
+import { Register } from '../components/Register';
+import { Movies } from '../components/Movies';
+import { MoviesForm } from '../components/MoviesForm';
+import { NotFound } from '../components/commons/NotFound';
+import { Rentals } from '../components/Rentals';
+import { NavBar } from '../components/commons/NavBar';
+import { Customers } from '../components/Customers';
 
 export const VideoStore = () => {
     const dispatch = useDispatch();
